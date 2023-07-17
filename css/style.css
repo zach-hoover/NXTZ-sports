@@ -1,0 +1,73 @@
+body {
+    background-color: rgb(14, 75, 14);
+    color: white;
+    margin: auto;
+    border: 15px;
+    padding: 25px;
+       
+}
+
+h1, h2, h3 {
+    color: white;
+    padding-bottom: 10px;
+}
+
+
+/* Navbar */
+.navbar {
+    background-color: #6aa37bf7;
+    color: #050000;
+    align-items: center;
+    float: center;
+    display: flex;
+    max-width: 600px;
+    width: 600px;
+    height: 300px;
+
+}
+
+/* .navbar h1{ */
+    /* float: center; */
+    /* padding-top: 2px; */
+/* } */
+
+/* .navbar ul { */
+    /* list-style: none; */
+    /* float: right; */
+
+/* } */
+
+/* .navbar ul li { */
+    /* float: right; */
+/* } */
+
+.navbar ul li a {
+    display: block;
+    padding: 10px;
+    align-self: center;
+}
+
+#box-1 {
+    background: url(soccerBall.jpg) no-repeat center center/cover;
+    color: white;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    height: 300px;
+    width: 600px;
+    font-size:medium;
+    line-height: .5;
+    margin: auto;
+    border: 15px; 
+    padding: 45px;
+
+}
+
+#box-3 {
+background: url(2pexels-sergio-souza-2291006\ -\ Copy.jpg) no-repeat center center/cover;
+align-items: center;
+color: white;
+height: 800px;
+width: 600px;
+margin: auto;
+border: 15px; 
+padding: 25px; 
+}
