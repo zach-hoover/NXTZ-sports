@@ -1,10 +1,10 @@
 //placeholder
 var playerInput = 'Jude Bellingham'
 var playerName = playerInput.replace(' ','%20')
-var prem ='17'
+ var prem ='17'
 var laLiga= '8'
-var Ligue1= '34'
-var bundesliga='35'
+ var Ligue1= '34'
+ var bundesliga='35'
 var eredevise= '37'
 var belgianProLeague='38'
 var mls= '242'
@@ -12,7 +12,21 @@ var ligaMX= '11621'
 var brasileiro= '325'
 var championship= '18'
 var saudiProleague= '955'
+// var leagues= ["17", "8", "34", "35","37","38", "242", "11621", "325", "18", "955"]
+
 var league = bundesliga
+var btns=document.querySelectorAll(".dropdown-item")
+for (let i = 0; i < btns.length; i++) {
+  // var value=leaguesEl[i].dataset.type
+  btns[i].addEventListener("click", 
+  function leaguebtn (event){league=event.target.dataset.type
+  console.log(event.target)
+  console.log(league)}
+  )
+
+
+  
+}
 var players=[]
 var season =''
 var desc=''
