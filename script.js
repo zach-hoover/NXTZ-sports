@@ -137,8 +137,8 @@ async function getstats() {
         return response.json()
       }).then(function(data) {
         //console.log(data)
-      stats=['Appearances:'+data.data.statistics.appearances,'Rating:'+data.data.statistics.rating,'Goals:'+data.data.statistics.goals,'x.G:'+data.data.statistics.expectedGoals,'Assists:'+data.data.statistics.assists,'x.A:'+data.data.statistics.expectedAssists,
-      'Completion percentage:'+data.data.statistics.accuratePassesPercentage+'%', 'Tackles:'+data.data.statistics.tackles, 'Clearances:'+data.data.statistics.clearances ]
+      stats=['Appearances:'+data.data.statistics.appearances,'Rating:'+data.data.statistics.rating.toFixed(2),'Goals:'+data.data.statistics.goals,'x.G:'+data.data.statistics.expectedGoals.toFixed(2),'Assists:'+data.data.statistics.assists,'x.A:'+data.data.statistics.expectedAssists.toFixed(2),
+      'Completion percentage:'+data.data.statistics.accuratePassesPercentage.toFixed(2)+'%', 'Tackles:'+data.data.statistics.tackles, 'Clearances:'+data.data.statistics.clearances ]
       console.log(stats)
       return true
   })}}
@@ -199,6 +199,7 @@ async function generatelist() {
     cardText.textContent = stats[i];
     cardBody.appendChild(cardText);
   }
+  return true
 }
 
 async function addCard() {
@@ -213,7 +214,15 @@ async function addCard() {
 
 addCard();
 }
-playerCard()
+// playerCard()
 
 
+var userInput = document.querySelector("input")
+var userSearch = document.querySelector("form")
+userSearch.addEventListener("submit", function(event){
+  event.preventDefault();
+  console.log(userInput.value)
 
+  playerInput = userInput.value
+  playerCard()
+})
