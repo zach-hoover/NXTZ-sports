@@ -1,6 +1,6 @@
 //placeholder
-var playerInput = 'Jude Bellingham'
-var playerName = playerInput.replace(' ','%20')
+var playerInput = ''
+var playerName = ''
  var prem ='17'
 var laLiga= '8'
  var Ligue1= '34'
@@ -13,8 +13,8 @@ var brasileiro= '325'
 var championship= '18'
 var saudiProleague= '955'
 // var leagues= ["17", "8", "34", "35","37","38", "242", "11621", "325", "18", "955"]
-
-var league = bundesliga
+let cardContainer;
+var league = ''
 var btns=document.querySelectorAll(".dropdown-item")
 for (let i = 0; i < btns.length; i++) {
   // var value=leaguesEl[i].dataset.type
@@ -34,36 +34,11 @@ var playerPhoto = ''
 var stats=[]
 //uses the league that is chosen to choose which season to use 
 //without a league or season value the fecth will not work
-if(league===laLiga){
-  season = '42409'
-}else if (league===prem) {
-  season= '41886'
-} else if (league===saudiProleague){
-  season='44908'
-}else if (league===Ligue1){
-  season='42273'
-}else if (league===bundesliga){
-  season='42268'
-}else if (league===eredevise){
-  season='42256'
-}else if(league===belgianProLeague){
-  season='42404'
-}else if(league===mls){
-  season='47955'
-}else if(league===ligaMX){
-  season='52052'
-}else if(league===brasileiro){
-  season='48982'
-}else if (league===championship){
-  season='42401'
-}else{
-  //error message if no league is chosen
-  //change to bootstrap modal at later date
-}
 
-const url2 = 'https://sofascores.p.rapidapi.com/v1/search/multi?group=players&query='+playerName;
 
-  async function getid() {
+
+async function getid() {
+    const url2 = 'https://sofascores.p.rapidapi.com/v1/search/multi?group=players&query='+playerName;
     try {
       const response = await fetch(url2, {
         headers: {
@@ -95,7 +70,7 @@ const url2 = 'https://sofascores.p.rapidapi.com/v1/search/multi?group=players&qu
     }
   }
 async function generateDescription() {
-  const url = 'https://thesportsdb.p.rapidapi.com/searchplayers.php?p='+playerName+'&t='+players[0].team.replace(' ','%20');
+  const url = 'https://thesportsdb.p.rapidapi.com/searchplayers.php?p='+playerName
   fetch(url,{
   headers: {
     'X-RapidAPI-Key': '457654d9acmsh0e511ef2135aeffp1572efjsna8ace50498fe',
@@ -113,8 +88,7 @@ async function generateDescription() {
 async function playerCard() {
   try {
     await getid(); 
-    await getstats();
-    await generateDescription();
+    await Promise.all([generateDescription(), getstats()])
     await getphoto();
     await generateCard()
 
@@ -125,7 +99,7 @@ async function playerCard() {
   
 async function getstats() {
     
-  if(players.length===1){
+
     var urlStats= 'https://sofascores.p.rapidapi.com/v1/players/statistics/result?seasons_id='+season+'&player_id='+players[0].id+'&unique_tournament_id='+league+'&player_stat_type=overall'
     fetch(urlStats,{
         headers: {
@@ -141,7 +115,7 @@ async function getstats() {
       'Completion percentage:'+data.data.statistics.accuratePassesPercentage.toFixed(2)+'%', 'Tackles:'+data.data.statistics.tackles, 'Clearances:'+data.data.statistics.clearances ]
       console.log(stats)
       return true
-  })}}
+  })}
 
 async function getphoto() {
     const urlPhoto = 'https://sofascores.p.rapidapi.com/v1/players/photo?player_id=' + players[0].id;
@@ -166,7 +140,10 @@ async function getphoto() {
   }
 
 async function generateCard(){
-const cardContainer = document.createElement('div');
+  if(cardContainer){
+    cardContainer.remove()
+  }
+cardContainer = document.createElement('div');
 cardContainer.classList.add('card', 'mb-3');
 cardContainer.style.maxWidth = '540px';
 const rowContainer = document.createElement('div');
@@ -193,13 +170,14 @@ description.textContent= desc
 descriptionEl.appendChild(description)
 
 async function generatelist() {
-  for (let i = 0; i < stats.length; i++) {
-    const cardText = document.createElement('li');
-    cardText.classList.add('card-text');
-    cardText.textContent = stats[i];
-    cardBody.appendChild(cardText);
-  }
-  return true
+  return new Promise((resolve) => {
+    for (let i = 0; i < stats.length; i++) {
+      const cardText = document.createElement('li');
+      cardText.classList.add('card-text');
+      cardText.textContent = stats[i];
+      cardBody.appendChild(cardText);
+    }
+    resolve();})
 }
 
 async function addCard() {
@@ -211,7 +189,7 @@ async function addCard() {
   cardContainer.appendChild(rowContainer);
   document.body.appendChild(cardContainer);
 }
-
+await generatelist()
 addCard();
 }
 // playerCard()
@@ -221,8 +199,37 @@ var userInput = document.querySelector("input")
 var userSearch = document.querySelector("form")
 userSearch.addEventListener("submit", function(event){
   event.preventDefault();
+  players=[]
+  if(league===laLiga){
+    season = '42409'
+  }else if (league===prem) {
+    season= '41886'
+  } else if (league===saudiProleague){
+    season='44908'
+  }else if (league===Ligue1){
+    season='42273'
+  }else if (league===bundesliga){
+    season='42268'
+  }else if (league===eredevise){
+    season='42256'
+  }else if(league===belgianProLeague){
+    season='42404'
+  }else if(league===mls){
+    season='47955'
+  }else if(league===ligaMX){
+    season='52052'
+  }else if(league===brasileiro){
+    season='48982'
+  }else if (league===championship){
+    season='42401'
+  }else{
+    window.alert('please select league')
+    return false
+    //change to bootstrap modal at later date
+  }
+  console.log(season)
   console.log(userInput.value)
-
   playerInput = userInput.value
+  playerName=playerInput.replace(' ','%20')
   playerCard()
 })
