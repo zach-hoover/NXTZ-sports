@@ -32,3 +32,12 @@
     25%,50% { opacity: 1; }
     100% { opacity: 0; }
   }
+
+  .cardCenter{
+    align-items: center;
+    margin: auto;
+    max-width: 540px;
+    display: flex;
+    justify-content: center;
+}
+  

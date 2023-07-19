@@ -196,7 +196,7 @@ async function generateCard(){
     cardContainer.remove()
   }
 cardContainer = document.createElement('div');
-cardContainer.classList.add('card', 'mb-3');
+cardContainer.classList.add('card', 'mb-3',"cardCenter");
 cardContainer.style.maxWidth = '540px';
 const rowContainer = document.createElement('div');
 rowContainer.classList.add('row', 'g-0');
