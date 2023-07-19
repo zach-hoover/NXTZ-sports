@@ -223,7 +223,16 @@ userSearch.addEventListener("submit", function(event){
   }else if (league===championship){
     season='42401'
   }else{
-    window.alert('please select league')
+    // window.alert('please select league')
+       $('#exampleModal').modal('show')
+      //  $('#exampleModal').modal({
+      //   keyboard: false
+      //  })
+    // $('#exampleModal').modal('show'){
+    //   // show:true 
+    //   keyboard: false
+    // })
+    
     return false
     //change to bootstrap modal at later date
   }
