@@ -14,6 +14,8 @@ var championship= '18'
 var saudiProleague= '955'
 // var leagues= ["17", "8", "34", "35","37","38", "242", "11621", "325", "18", "955"]
 let cardContainer;
+let descriptionEl;
+
 var league = ''
 var btns=document.querySelectorAll(".dropdown-item")
 for (let i = 0; i < btns.length; i++) {
@@ -66,7 +68,7 @@ async function getid() {
       return true;
     } catch (error) {
       console.error('Error:', error);
-      throw error;
+      location.reload();
     }
   }
 async function generateDescription() {
@@ -83,39 +85,89 @@ async function generateDescription() {
     desc= data.player[0].strDescriptionEN
     console.log(desc)
     return true
-  })
+  }) .catch(function (error) {
+    console.error('Error:', error);
+    if(descriptionEl){
+      descriptionEl.remove()
+    };
+  });
 }
 async function playerCard() {
   try {
     await getid(); 
-    await Promise.all([generateDescription(), getstats()])
-    await getphoto();
-    await generateCard()
+    await Promise.all([generateDescription(), getstats(), await getphoto()]);
+    if(stats.length>0){
+      generateCard()}else{console.log("error")}
 
 
   }catch (error) {
     // Handle error if necessary
   }}
   
-async function getstats() {
-    
-
-    var urlStats= 'https://sofascores.p.rapidapi.com/v1/players/statistics/result?seasons_id='+season+'&player_id='+players[0].id+'&unique_tournament_id='+league+'&player_stat_type=overall'
-    fetch(urlStats,{
+  async function getstats() {
+    return new Promise((resolve, reject) => {
+      var urlStats =
+        'https://sofascores.p.rapidapi.com/v1/players/statistics/result?seasons_id=' +
+        season +
+        '&player_id=' +
+        players[0].id +
+        '&unique_tournament_id=' +
+        league +
+        '&player_stat_type=overall';
+      fetch(urlStats, {
         headers: {
           'X-RapidAPI-Key': '457654d9acmsh0e511ef2135aeffp1572efjsna8ace50498fe',
-          'X-RapidAPI-Host': 'sofascores.p.rapidapi.com'
-          
-        }
-      }).then(function(response) {
-        return response.json()
-      }).then(function(data) {
-        //console.log(data)
-      stats=['Appearances:'+data.data.statistics.appearances,'Rating:'+data.data.statistics.rating.toFixed(2),'Goals:'+data.data.statistics.goals,'x.G:'+data.data.statistics.expectedGoals.toFixed(2),'Assists:'+data.data.statistics.assists,'x.A:'+data.data.statistics.expectedAssists.toFixed(2),
-      'Completion percentage:'+data.data.statistics.accuratePassesPercentage.toFixed(2)+'%', 'Tackles:'+data.data.statistics.tackles, 'Clearances:'+data.data.statistics.clearances ]
-      console.log(stats)
-      return true
-  })}
+          'X-RapidAPI-Host': 'sofascores.p.rapidapi.com',
+        },
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          if (
+            league === '37' ||
+            league === '38' ||
+            league === '11621' ||
+            league === '18' ||
+            league === '955' ||
+            league === '242'
+          ) {
+            stats = [
+              'Appearances:' + data.data.statistics.appearances,
+              'Rating:' + data.data.statistics.rating.toFixed(2),
+              'Goals:' + data.data.statistics.goals,
+              'Assists:' + data.data.statistics.assists,
+              'Completion percentage:' +
+                data.data.statistics.accuratePassesPercentage.toFixed(2) +
+                '%',
+              'Tackles:' + data.data.statistics.tackles,
+              'Clearances:' + data.data.statistics.clearances,
+            ];
+          } else {
+            stats = [
+              'Appearances:' + data.data.statistics.appearances,
+              'Rating:' + data.data.statistics.rating.toFixed(2),
+              'Goals:' + data.data.statistics.goals,
+              'x.G:' + data.data.statistics.expectedGoals.toFixed(2),
+              'Assists:' + data.data.statistics.assists,
+              'x.A:' + data.data.statistics.expectedAssists.toFixed(2),
+              'Completion percentage:' +
+                data.data.statistics.accuratePassesPercentage.toFixed(2) +
+                '%',
+              'Tackles:' + data.data.statistics.tackles,
+              'Clearances:' + data.data.statistics.clearances,
+            ];
+          }
+  
+          console.log(stats);
+          resolve(stats);
+        })
+        .catch(function (error) {
+          console.error('Error:', error);
+          reject(error);
+        });
+    });
+  }
 
 async function getphoto() {
     const urlPhoto = 'https://sofascores.p.rapidapi.com/v1/players/photo?player_id=' + players[0].id;
@@ -134,8 +186,8 @@ async function getphoto() {
         throw new Error('Error fetching player photo: ' + response.status);
       }
     } catch (error) {
-      console.error('Error:', error);
-      throw error;
+      location.reload();
+      return false;
     }
   }
 
@@ -162,22 +214,34 @@ cardBody.classList.add('card-body');
 const cardTitle = document.createElement('h5');
 cardTitle.classList.add('card-title');
 cardTitle.textContent = players[0].name;
-const descriptionEl = document.createElement('p');
+if(desc){descriptionEl = document.createElement('p');
 descriptionEl.classList.add('card-text');
 const description = document.createElement('small')
 description.classList.add('text-body-secondary')
 description.textContent= desc
-descriptionEl.appendChild(description)
+descriptionEl.appendChild(description)}
 
 async function generatelist() {
   return new Promise((resolve) => {
-    for (let i = 0; i < stats.length; i++) {
-      const cardText = document.createElement('li');
-      cardText.classList.add('card-text');
-      cardText.textContent = stats[i];
-      cardBody.appendChild(cardText);
+    //console.log('inside generate list')
+    //console.log('stats length',stats.length)
+    // Clear the previous list items
+    while (cardBody.firstChild) {
+      cardBody.firstChild.remove();
     }
-    resolve();})
+    
+    if (stats.length>0) {
+      console.log('generate items')
+      for (let i = 0; i < stats.length; i++) {
+        const cardText = document.createElement('li');
+        cardText.classList.add('card-text');
+        cardText.textContent = stats[i];
+        cardBody.appendChild(cardText);
+      }
+      resolve();
+    }else{console.log("no stats")}
+      // Generate new list items
+  });
 }
 
 async function addCard() {
@@ -185,7 +249,8 @@ async function addCard() {
   cardBodyCol.appendChild(cardBody);
   rowContainer.appendChild(imageCol);
   rowContainer.appendChild(cardBodyCol);
-  cardBody.appendChild(descriptionEl);
+  if(descriptionEl){
+  cardBody.appendChild(descriptionEl);}
   cardContainer.appendChild(rowContainer);
   document.body.appendChild(cardContainer);
 }
@@ -223,16 +288,7 @@ userSearch.addEventListener("submit", function(event){
   }else if (league===championship){
     season='42401'
   }else{
-    // window.alert('please select league')
-       $('#exampleModal').modal('show')
-      //  $('#exampleModal').modal({
-      //   keyboard: false
-      //  })
-    // $('#exampleModal').modal('show'){
-    //   // show:true 
-    //   keyboard: false
-    // })
-    
+    $('#exampleModal').modal('show')
     return false
     //change to bootstrap modal at later date
   }
