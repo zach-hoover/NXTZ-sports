@@ -309,3 +309,22 @@ userSearch.addEventListener("submit", function(event){
   playerName=playerInput.replace(' ','%20')
   playerCard()
 })
+
+// Function to save the card data to local storage
+function saveCardToLocalStorage() {
+  const cardData = {
+    playerName: players[0].name,
+    league: league,
+    season: season,
+    description: desc,
+    playerPhoto: playerPhoto,
+    stats: stats,
+  };
+
+  localStorage.setItem('savedCard', JSON.stringify(cardData));
+
+}
+
+// Add event listener to the link button in the nav bar
+const saveButton = document.getElementById('linkBtn');
+saveButton.addEventListener('click', saveCardToLocalStorage);
