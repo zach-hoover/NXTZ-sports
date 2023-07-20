@@ -124,7 +124,17 @@ async function playerCard() {
           return response.json();
         })
         .then(function (data) {
-          if (
+         if(players[0].position === 'G'){
+          stats = [
+            'Appearances:' + data.data.statistics.appearances,
+            'Rating:' + data.data.statistics.rating.toFixed(2),
+            'Saves:'+ data.data.statistics.saves,
+            'Clean Sheets:'+data.data.statistics.cleanSheet,
+            'Goals Prevented:'+data.data.statistics.goalsPrevented.toFixed(2),
+            'Accurate Longballs:'+data.data.statistics.accurateLongBallsPercentage.toFixed(2)+'%',
+
+          ]
+         }else{ if (
             league === '37' ||
             league === '38' ||
             league === '11621' ||
@@ -157,7 +167,7 @@ async function playerCard() {
               'Tackles:' + data.data.statistics.tackles,
               'Clearances:' + data.data.statistics.clearances,
             ];
-          }
+          }}
   
           console.log(stats);
           resolve(stats);
@@ -246,12 +256,13 @@ async function generatelist() {
 
 async function addCard() {
   await generatelist();
+  cardContainer.appendChild(cardTitle)
   cardBodyCol.appendChild(cardBody);
   rowContainer.appendChild(imageCol);
   rowContainer.appendChild(cardBodyCol);
+  cardContainer.appendChild(rowContainer)
   if(descriptionEl){
-  cardBody.appendChild(descriptionEl);}
-  cardContainer.appendChild(rowContainer);
+  cardContainer.appendChild(descriptionEl);}
   document.body.appendChild(cardContainer);
 }
 await generatelist()
