@@ -298,3 +298,38 @@ userSearch.addEventListener("submit", function(event){
   playerName=playerInput.replace(' ','%20')
   playerCard()
 })
+
+// Save footballers to localStorage
+function savedFootballers() {
+
+  // Initialize the array to store footballer names
+  var searchedFootballers = [];
+
+  // Check if there are already footballers in local storage
+  if (localStorage.getItem("searchedFootballers")) {
+    searchedFootballers = JSON.parse(localStorage.getItem("searchedFootballers"));
+  }
+
+  var userInput = document.querySelector("input");
+  var userSearch = document.querySelector("form");
+
+  userSearch.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    var playerInput = userInput.value;
+
+     // Split the name into first and last names
+     var playerNameParts = playerInput.trim().split(" ");
+     var firstName = playerNameParts[0];
+     var lastName = playerNameParts.slice(1).join(" ");
+ 
+     var fullName = firstName + " " + lastName;
+     searchedFootballers.push(fullName);
+
+    localStorage.setItem("Footballer", JSON.stringify(searchedFootballers));
+
+  });
+}
+
+// Call the function 
+savedFootballers();
