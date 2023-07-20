@@ -299,37 +299,21 @@ userSearch.addEventListener("submit", function(event){
   playerCard()
 })
 
-// Save footballers to localStorage
-function savedFootballers() {
+// Function to save the card data to local storage
+function saveCardToLocalStorage() {
+  const cardData = {
+    playerName: players[0].name,
+    league: league,
+    season: season,
+    description: desc,
+    playerPhoto: playerPhoto,
+    stats: stats,
+  };
 
-  // Initialize the array to store footballer names
-  var searchedFootballers = [];
+  localStorage.setItem('savedCard', JSON.stringify(cardData));
 
-  // Check if there are already footballers in local storage
-  if (localStorage.getItem("searchedFootballers")) {
-    searchedFootballers = JSON.parse(localStorage.getItem("searchedFootballers"));
-  }
-
-  var userInput = document.querySelector("input");
-  var userSearch = document.querySelector("form");
-
-  userSearch.addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    var playerInput = userInput.value;
-
-     // Split the name into first and last names
-     var playerNameParts = playerInput.trim().split(" ");
-     var firstName = playerNameParts[0];
-     var lastName = playerNameParts.slice(1).join(" ");
- 
-     var fullName = firstName + " " + lastName;
-     searchedFootballers.push(fullName);
-
-    localStorage.setItem("Footballer", JSON.stringify(searchedFootballers));
-
-  });
 }
 
-// Call the function 
-savedFootballers();
+// Add event listener to the link button in the nav bar
+const saveButton = document.getElementById('linkBtn');
+saveButton.addEventListener('click', saveCardToLocalStorage);
