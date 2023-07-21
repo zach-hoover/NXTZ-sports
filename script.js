@@ -15,7 +15,8 @@ var saudiProleague= '955'
 // var leagues= ["17", "8", "34", "35","37","38", "242", "11621", "325", "18", "955"]
 let cardContainer;
 let descriptionEl;
-
+let comparedescriptionEl;
+let cardCompareContainer;
 var league = ''
 var btns=document.querySelectorAll(".dropdown-item")
 for (let i = 0; i < btns.length; i++) {
@@ -84,6 +85,9 @@ async function generateDescription() {
     //console.log(data)
     desc= data.player[0].strDescriptionEN
     console.log(desc)
+    if(desc == null && descriptionEl){
+      descriptionEl.remove()
+    }
     return true
   }) .catch(function (error) {
     console.error('Error:', error);
@@ -275,6 +279,9 @@ var userInput = document.querySelector("input")
 var userSearch = document.querySelector("form")
 userSearch.addEventListener("submit", function(event){
   event.preventDefault();
+  if(cardCompareContainer){
+    cardCompareContainer.remove()
+  }
   players=[]
   if(league===laLiga){
     season = '42409'
@@ -328,3 +335,79 @@ function saveCardToLocalStorage() {
 // Add event listener to the link button in the nav bar
 const saveButton = document.getElementById('linkBtn');
 saveButton.addEventListener('click', saveCardToLocalStorage);
+
+function compareCard() {
+  var savedPlayerItem = localStorage.getItem('savedCard')
+  var savedPlayer =JSON.parse(savedPlayerItem)
+  console.log(savedPlayer)
+  async function generateCompareCard(){
+    if(cardCompareContainer){
+      cardCompareContainer.remove()
+    }
+  cardCompareContainer = document.createElement('div');
+  cardCompareContainer.classList.add('card', 'mb-3',"cardCenter");
+  cardCompareContainer.style.maxWidth = '540px';
+  const rowContainer = document.createElement('div');
+  rowContainer.classList.add('row', 'g-0');
+  const imageCol = document.createElement('div');
+  imageCol.classList.add('col-md-4');
+  const image = document.createElement('img');
+  image.src = savedPlayer.playerPhoto; 
+  image.classList.add('img-fluid', 'rounded-start');
+  image.alt = savedPlayer.playerName; 
+  imageCol.appendChild(image);
+  const cardBodyCol = document.createElement('div');
+  cardBodyCol.classList.add('col-md-8');
+  const cardBody = document.createElement('div');
+  cardBody.classList.add('card-body');
+  const cardTitle = document.createElement('h5');
+  cardTitle.classList.add('card-title');
+  cardTitle.textContent = savedPlayer.playerName;
+  if(savedPlayer.description){comparedescriptionEl = document.createElement('p');
+  comparedescriptionEl.classList.add('card-text');
+  const description = document.createElement('small')
+  description.classList.add('text-body-secondary')
+  description.textContent= savedPlayer.description
+  comparedescriptionEl.appendChild(description)}
+  
+  async function generatelist() {
+    return new Promise((resolve) => {
+      //console.log('inside generate list')
+      //console.log('stats length',stats.length)
+      // Clear the previous list items
+      while (cardBody.firstChild) {
+        cardBody.firstChild.remove();
+      }
+      
+      if (stats.length>0) {
+        console.log('generate items')
+        for (let i = 0; i < savedPlayer.stats.length; i++) {
+          const cardText = document.createElement('li');
+          cardText.classList.add('card-text');
+          cardText.textContent = savedPlayer.stats[i];
+          cardBody.appendChild(cardText);
+        }
+        resolve();
+      }else{console.log("no stats")}
+        // Generate new list items
+    });
+  }
+  
+  async function addCard() {
+    await generatelist();
+    cardCompareContainer.appendChild(cardTitle)
+    cardBodyCol.appendChild(cardBody);
+    rowContainer.appendChild(imageCol);
+    rowContainer.appendChild(cardBodyCol);
+    cardCompareContainer.appendChild(rowContainer)
+    if(comparedescriptionEl){
+    cardCompareContainer.appendChild(comparedescriptionEl);}
+    document.body.appendChild(cardCompareContainer);
+  }
+  await generatelist()
+  addCard();
+  } generateCompareCard()
+}
+
+const compareBtn = document.querySelector('#compare')
+compareBtn.addEventListener('click',compareCard)
