@@ -10,9 +10,15 @@ The purpose of this app is to eliminate the user from having to click through mu
 To use this app, one must click on a league name from the drop-down box.  Then the user must type in the name of a specific player's name and 
 click enter. Along with a photo and a brief description of the player, the following information will be returned: Average Rating, Goals, xG, Assists, Pass Percentage, Successful Dribbles, Tackles, Interceptions and Clearances.
 
+## Screenshots
+![Alt text](<imgs/Screenshot 2023-07-24 202017.png>)
+
+![Alt text](<imgs/Screenshot 2023-07-24 201950.png>)
+
 ## Direction of Future Development
 To develop this app we used a database of only a small portion of professional football leagues. In order for this app to stand out and be
 superior, at some point, we would like to be able to add the names of all the professional soccer leagues and their players. This will then provide the user with a complete, concise resource to get any, and all information, statistics and standings in one location.
+
 
 ### Reference material
 To complete this project we included the use of two API's:
