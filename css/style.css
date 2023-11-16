@@ -41,3 +41,58 @@
     justify-content: center;
 }
   
+
+/* latest changes */
+body {
+  background: url('https://muralsyourway.vtexassets.com/arquivos/ids/231357-825-auto?width=825&height=auto&aspect=true') center/cover no-repeat;
+}
+
+header {
+  background-color: rgb(29, 43, 29);
+  text-align: center;
+}
+
+.hero-image {
+  margin-top: 0px;
+}
+
+.navbar-brand {
+  color: rgb(29, 43, 29);
+}
+
+.navbar-nav .nav-link {
+  color: rgb(29, 43, 29); 
+}
+
+header h1 {
+  color: rgb(255, 255, 255);
+  margin: 0;
+  padding: 10px; 
+}
+
+.custom-card {
+  background-color: rgba(255, 255, 255, 0.707);
+  border: 3px solid rgb(29, 43, 29);
+}
+
+.custom-card .card-title {
+  font-family: Arial, sans-serif;
+  font-size: 40px;
+  margin-top: 30px;
+  padding-bottom: 20px;;
+}
+
+.col-md-4 img {
+  border: 2px solid rgb(29, 43, 29);
+}
+
+.custom-card .col-md-8 {
+  font-family: Arial, sans-serif;
+  color: black;
+  font-weight: bolder;
+}
+
+.custom-card .text-body-secondary {
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+}

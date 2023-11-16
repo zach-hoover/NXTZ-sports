@@ -210,7 +210,8 @@ async function generateCard(){
     cardContainer.remove()
   }
 cardContainer = document.createElement('div');
-cardContainer.classList.add('card', 'mb-3',"cardCenter");
+cardContainer.classList.add('card', 'mb-3',"cardCenter","custom-card");
+//latest changes ^
 cardContainer.style.maxWidth = '540px';
 const rowContainer = document.createElement('div');
 rowContainer.classList.add('row', 'g-0');
@@ -345,7 +346,8 @@ function compareCard() {
       cardCompareContainer.remove()
     }
   cardCompareContainer = document.createElement('div');
-  cardCompareContainer.classList.add('card', 'mb-3',"cardCenter");
+  cardCompareContainer.classList.add('card', 'mb-3',"cardCenter", 'custom-card');
+  //latest changes ^
   cardCompareContainer.style.maxWidth = '540px';
   const rowContainer = document.createElement('div');
   rowContainer.classList.add('row', 'g-0');
@@ -411,3 +413,4 @@ function compareCard() {
 
 const compareBtn = document.querySelector('#compare')
 compareBtn.addEventListener('click',compareCard)
+
