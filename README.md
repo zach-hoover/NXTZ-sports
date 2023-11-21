@@ -19,6 +19,9 @@ click enter. Along with a photo and a brief description of the player, the follo
 To develop this app we used a database of only a small portion of professional football leagues. In order for this app to stand out and be
 superior, at some point, we would like to be able to add the names of all the professional soccer leagues and their players. This will then provide the user with a complete, concise resource to get any, and all information, statistics and standings in one location.
 
+## Link to Application
+
+https://zach-hoover.github.io/NXTZ-sports/
 
 ### Reference material
 To complete this project we included the use of two API's:
